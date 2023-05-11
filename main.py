@@ -26,7 +26,6 @@ data = my_file.read()
 class_list = data.split("\n") 
 #print(class_list)
 
-k=['car','motorcycle']
 count=0
 
 tracker=Tracker()
@@ -73,8 +72,8 @@ while True:
         cv2.circle(frame,(x4,y4),4,(255,0,0),-1)
         cvzone.putTextRect(frame,f'{id}',(x3,y3),1,2)
         
-    cv2.polylines(frame,[np.array(area1,np.int32,)],True,(0,0,255),1)
-    cv2.polylines(frame,[np.array(area2,np.int32,)],True,(0,255,0),1)    
+    cv2.polylines(frame,[np.array(area1,np.int32)],True,(0,0,255),1)
+    cv2.polylines(frame,[np.array(area2,np.int32)],True,(0,255,0),1)    
    
    
 
