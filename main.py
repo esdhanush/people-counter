@@ -2,6 +2,7 @@ import cv2
 import pandas as pd
 import numpy as np
 from ultralytics import YOLO
+#from deep_sort_pytorch.utils.parser import get_config
 from tracker import*
 import cvzone
 
@@ -68,19 +69,47 @@ while True:
     bbox_id=tracker.update(list)
     for bbox in bbox_id:
         x3,y3,x4,y4,id=bbox
-        cv2.rectangle(frame,(x3,y3),(x4,y4),(255,0,255),1)
-        cv2.circle(frame,(x4,y4),4,(255,0,0),-1)
-        cvzone.putTextRect(frame,f'{id}',(x3,y3),1,2)
-        
+        results=cv2.pointPolygonTest(np.array(area1,np.int32),((x4,y4)),False) 
+        if results>=0:
+            #cv2.rectangle(frame,(x3,y3),(x4,y4),(255,0,255),1)
+            #cv2.circle(frame,(x4,y4),4,(255,0,0),-1)
+            #cvzone.putTextRect(frame,f'{id}',(x3,y3),1,2)
+            people_exit[id]=(x4,y4)  
+        if id in people_exit :
+            results1=cv2.pointPolygonTest(np.array(area2,np.int32),((x4,y4)),False) 
+            if results1>=0:
+                cv2.rectangle(frame,(x3,y3),(x4,y4),(255,0,255),1)
+                cv2.circle(frame,(x4,y4),4,(255,0,0),-1)
+                cvzone.putTextRect(frame,f'{id}',(x3,y3),1,2)
+                if counter2.count(id)==0:
+                    counter2.append(id)
+        #Enter mall Counter
+        results2=cv2.pointPolygonTest(np.array(area2,np.int32),((x4,y4)),False) 
+        if results2>=0:
+             
+            people_enter[id]=(x4,y4)   
+        if id in people_enter :
+            results3=cv2.pointPolygonTest(np.array(area1,np.int32),((x4,y4)),False) 
+            if results3>=0:
+                cv2.rectangle(frame,(x3,y3),(x4,y4),(255,0,255),1)
+                cv2.circle(frame,(x4,y4),4,(255,0,0),-1)
+                cvzone.putTextRect(frame,f'{id}',(x3,y3),1,2)
+                if counter1.count(id)==0:
+                    counter1.append(id)
+
     cv2.polylines(frame,[np.array(area1,np.int32)],True,(0,0,255),1)
     cv2.polylines(frame,[np.array(area2,np.int32)],True,(0,255,0),1)    
-   
+    er=(len(counter1))
+    et=(len(counter2))
+    cvzone.putTextRect(frame,f'Enter:{er}',(50,50),1,2)
+    cvzone.putTextRect(frame,f'Exit:{et}',(50,100),1,2)
    
 
  
     cv2.imshow("RGB", frame)
     if cv2.waitKey(1)&0xFF==27:
-        break
+        break 
 cap.release()
 cv2.destroyAllWindows()
+
 
