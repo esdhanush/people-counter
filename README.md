@@ -14,3 +14,12 @@ The Integrated Entry/Exit People Counter is an advanced system leveraging comput
 - Entry and exit counting separately.
 - Highly configurable parameters for different environments.
 - Simple integration with existing security or management systems
+
+## Contributors:
+- [Shyamsunder S](https://github.com/shyam-1217)
+- [E S Dhanush](https://github.com/esdhanush)
+- [Ravivarman K](https://github.com/Ravivarmankumar)
+- [Sanjay S](link-to-contributor2-profile)
+- [Thamilthennarasu](https://github.com/thamil001)
+
+
